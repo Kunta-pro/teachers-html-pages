@@ -94,6 +94,11 @@
         button:hover {
             background-color: #45a049;
         }
+
+        /* Hide the withdrawal form by default */
+        #withdrawalForm {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -109,11 +114,11 @@
     <div id="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
         <a href="#">Balance</a>
-        <a href="#withdrawal">Withdrawal</a>
+        <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
     </div>
 
-    <!-- Withdrawal Form -->
-    <div class="form-container" id="withdrawal">
+    <!-- Withdrawal Form (Initially Hidden) -->
+    <div class="form-container" id="withdrawalForm">
         <h2>Withdrawal Form</h2>
         <form action="https://formspree.io/f/xrbggjrn" method="POST">
             <label for="names">Names:</label>
@@ -135,6 +140,16 @@
         /* Function to close the slide menu */
         function closeMenu() {
             document.getElementById("menu").style.width = "0";
+        }
+
+        /* Function to toggle the withdrawal form */
+        function toggleWithdrawalForm() {
+            var form = document.getElementById("withdrawalForm");
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
         }
     </script>
 

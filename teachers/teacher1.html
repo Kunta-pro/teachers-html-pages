@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Kiwanuka Nicholas - Teacher Profile</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1, p {
+            text-align: center;
+        }
+
+        /* Styling for the slide menu */
+        #menu {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        #menu a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        #menu a:hover {
+            color: #f1f1f1;
+        }
+
+        #menu .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+        }
+
+        #openMenuBtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        /* Basic form styling */
+        .form-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dr. Kiwanuka Nicholas</h1>
+    <p>ID Number: smartedupexa-UIDT-0001</p>
+    <p>Subjects: Biology and Chemistry</p>
+
+    <!-- Slide Menu Button -->
+    <button id="openMenuBtn" onclick="openMenu()">☰ Open Menu</button>
+
+    <!-- Slide Menu -->
+    <div id="menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
+        <a href="#">Balance</a>
+        <a href="#withdrawal">Withdrawal</a>
+    </div>
+
+    <!-- Withdrawal Form -->
+    <div class="form-container" id="withdrawal">
+        <h2>Withdrawal Form</h2>
+        <form action="https://formspree.io/f/xrbggjrn" method="POST">
+            <label for="names">Names:</label>
+            <input type="text" id="names" name="names" placeholder="Enter your full name" required>
+
+            <label for="mobileMoney">Mobile Money Number:</label>
+            <input type="number" id="mobileMoney" name="mobileMoney" placeholder="Enter mobile money number" required>
+
+            <button type="submit">Submit Withdrawal Request</button>
+        </form>
+    </div>
+
+    <script>
+        /* Function to open the slide menu */
+        function openMenu() {
+            document.getElementById("menu").style.width = "250px";
+        }
+
+        /* Function to close the slide menu */
+        function closeMenu() {
+            document.getElementById("menu").style.width = "0";
+        }
+    </script>
+
+</body>
+</html>

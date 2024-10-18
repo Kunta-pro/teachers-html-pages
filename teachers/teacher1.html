@@ -8,6 +8,8 @@
         /* Basic styling for the page */
         body {
             font-family: Arial, sans-serif;
+            background-color: green; /* Set the background to green */
+            color: white;
         }
 
         h1, p {
@@ -46,6 +48,13 @@
             top: 0;
             right: 25px;
             font-size: 36px;
+        }
+
+        #menu .profile-info {
+            padding: 16px;
+            color: white;
+            background-color: #333;
+            text-align: center;
         }
 
         #openMenuBtn {
@@ -103,13 +112,24 @@
         #withdrawalForm {
             display: none;
         }
+
+        /* Watermark styling */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
-    <h1>Dr. Kiwanuka Nicholas</h1>
-    <p>ID Number: smartedupexa-UIDT-0001</p>
-    <p>Subjects: Biology and Chemistry</p>
+    <!-- Watermark Text -->
+    <div class="watermark">Welcome to Smartedupexa dear teacher</div>
 
     <!-- Slide Menu Button -->
     <button id="openMenuBtn" onclick="openMenu()">☰ Open Menu</button>
@@ -117,6 +137,15 @@
     <!-- Slide Menu -->
     <div id="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
+
+        <!-- Profile Info in Menu -->
+        <div class="profile-info">
+            <h1>Dr. Kiwanuka Nicholas</h1>
+            <p>ID: smartedupexa-UIDT-0001</p>
+            <p>Subjects: Biology and Chemistry</p>
+        </div>
+
+        <!-- Menu Items -->
         <a href="javascript:void(0)" onclick="toggleBalance()">Balance</a>
         <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
     </div>

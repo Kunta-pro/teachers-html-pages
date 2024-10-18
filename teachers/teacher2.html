@@ -3,11 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher - Eng. Lincoln</title>
+    <title>Mr. Walugembe Frank - Teacher Profile</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: green; /* Set the background to green */
+            color: white;
+        }
+
+        h1, p {
+            text-align: center;
+        }
+
+        /* Styling for the slide menu */
+        #menu {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        #menu a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        #menu a:hover {
+            color: #f1f1f1;
+        }
+
+        #menu .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+        }
+
+        #menu .profile-info {
+            padding: 16px;
+            color: white;
+            background-color: #333;
+            text-align: center;
+        }
+
+        #openMenuBtn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+
+        /* Basic form styling */
+        .form-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Hide the balance and withdrawal form by default */
+        #balance {
+            display: none;
+        }
+
+        #withdrawalForm {
+            display: none;
+        }
+
+        /* Watermark styling */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to Eng. Lincoln's Page</h1>
-    <p>Eng. Lincoln is a specialist in Engineering and Mathematics, with a focus on practical applications in modern industries.</p>
-    <p><strong>Email:</strong> lincoln@example.com</p>
+
+    <!-- Watermark Text -->
+    <div class="watermark">Welcome to Smartedupexa dear teacher</div>
+
+    <!-- Slide Menu Button -->
+    <button id="openMenuBtn" onclick="openMenu()">☰ Open Menu</button>
+
+    <!-- Slide Menu -->
+    <div id="menu">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
+
+        <!-- Profile Info in Menu -->
+        <div class="profile-info">
+            <h1>Mr. Walugembe Frank</h1>
+            <p>ID: smartedupexa-UIDT-0002</p>
+            <p>Subjects: Luganda, ENT, and History</p>
+        </div>
+
+        <!-- Menu Items -->
+        <a href="javascript:void(0)" onclick="toggleBalance()">Balance</a>
+        <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
+    </div>
+
+    <!-- Balance Display (Initially Hidden) -->
+    <div id="balance" class="form-container">
+        <h2>Balance</h2>
+        <p>Balance: 0 UGX</p>
+    </div>
+
+    <!-- Withdrawal Form (Initially Hidden) -->
+    <div class="form-container" id="withdrawalForm">
+        <h2>Withdrawal Form</h2>
+        <form action="https://formspree.io/f/xrbggjrn" method="POST">
+            <label for="names">Names:</label>
+            <input type="text" id="names" name="names" placeholder="Enter your full name" required>
+
+            <label for="mobileMoney">Mobile Money Number:</label>
+            <input type="number" id="mobileMoney" name="mobileMoney" placeholder="Enter mobile money number" required>
+
+            <button type="submit">Submit Withdrawal Request</button>
+        </form>
+    </div>
+
+    <script>
+        /* Function to open the slide menu */
+        function openMenu() {
+            document.getElementById("menu").style.width = "250px";
+        }
+
+        /* Function to close the slide menu */
+        function closeMenu() {
+            document.getElementById("menu").style.width = "0";
+        }
+
+        /* Function to toggle the balance display */
+        function toggleBalance() {
+            var balance = document.getElementById("balance");
+            var form = document.getElementById("withdrawalForm");
+
+            if (balance.style.display === "none" || balance.style.display === "") {
+                balance.style.display = "block";
+                form.style.display = "none"; // Hide withdrawal form
+            } else {
+                balance.style.display = "none";
+            }
+        }
+
+        /* Function to toggle the withdrawal form */
+        function toggleWithdrawalForm() {
+            var form = document.getElementById("withdrawalForm");
+            var balance = document.getElementById("balance");
+
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+                balance.style.display = "none"; // Hide balance
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
+
 </body>
 </html>

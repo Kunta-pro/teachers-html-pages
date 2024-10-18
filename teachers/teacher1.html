@@ -95,7 +95,11 @@
             background-color: #45a049;
         }
 
-        /* Hide the withdrawal form by default */
+        /* Hide the balance and withdrawal form by default */
+        #balance {
+            display: none;
+        }
+
         #withdrawalForm {
             display: none;
         }
@@ -113,8 +117,14 @@
     <!-- Slide Menu -->
     <div id="menu">
         <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
-        <a href="#">Balance</a>
+        <a href="javascript:void(0)" onclick="toggleBalance()">Balance</a>
         <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
+    </div>
+
+    <!-- Balance Display (Initially Hidden) -->
+    <div id="balance" class="form-container">
+        <h2>Balance</h2>
+        <p>Balance: 0 UGX</p>
     </div>
 
     <!-- Withdrawal Form (Initially Hidden) -->
@@ -142,11 +152,27 @@
             document.getElementById("menu").style.width = "0";
         }
 
+        /* Function to toggle the balance display */
+        function toggleBalance() {
+            var balance = document.getElementById("balance");
+            var form = document.getElementById("withdrawalForm");
+
+            if (balance.style.display === "none" || balance.style.display === "") {
+                balance.style.display = "block";
+                form.style.display = "none"; // Hide withdrawal form
+            } else {
+                balance.style.display = "none";
+            }
+        }
+
         /* Function to toggle the withdrawal form */
         function toggleWithdrawalForm() {
             var form = document.getElementById("withdrawalForm");
+            var balance = document.getElementById("balance");
+
             if (form.style.display === "none" || form.style.display === "") {
                 form.style.display = "block";
+                balance.style.display = "none"; // Hide balance
             } else {
                 form.style.display = "none";
             }

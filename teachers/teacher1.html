@@ -10,6 +10,11 @@
             font-family: Arial, sans-serif;
             background-color: green; /* Set the background to green */
             color: white;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
         }
 
         h1, p {
@@ -64,6 +69,10 @@
             color: white;
             padding: 10px 15px;
             border: none;
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 2;
         }
 
         /* Basic form styling */
@@ -83,12 +92,13 @@
             font-weight: bold;
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
             border-radius: 4px;
             border: 1px solid #ccc;
+            box-sizing: border-box;
         }
 
         button {
@@ -98,18 +108,15 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin: 10px 5px;
         }
 
         button:hover {
             background-color: #45a049;
         }
 
-        /* Hide the balance and withdrawal form by default */
-        #balance {
-            display: none;
-        }
-
-        #withdrawalForm {
+        /* Hide the balance, withdrawal form, marks submission, and assignment form by default */
+        #balance, #marksSubmission, #withdrawalForm, #assignmentForm {
             display: none;
         }
 
@@ -123,6 +130,36 @@
             color: rgba(255, 255, 255, 0.5);
             font-weight: bold;
             text-align: center;
+        }
+
+        /* Table Styling for Marks Submission */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 600px) {
+            #menu a { font-size: 18px; padding: 8px 8px 8px 16px; }
+            #menu .profile-info h1 { font-size: 20px; }
+            #menu .profile-info p { font-size: 14px; }
+            button { padding: 8px 16px; font-size: 16px; }
+            table, th, td { font-size: 14px; padding: 8px; }
         }
     </style>
 </head>
@@ -148,6 +185,11 @@
         <!-- Menu Items -->
         <a href="javascript:void(0)" onclick="toggleBalance()">Balance</a>
         <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
+        <a href="javascript:void(0)" onclick="toggleAssignmentForm()">Assignments</a>
+        <a href="javascript:void(0)" onclick="toggleMarksSubmission()">Students Marks</a>
+        <a href="#">Bookings</a>
+        <a href="#">Notes</a>
+        <a href="#">Time Table</a>
     </div>
 
     <!-- Balance Display (Initially Hidden) -->
@@ -170,8 +212,56 @@
         </form>
     </div>
 
+    <!-- Student Marks Submission (Initially Hidden) -->
+    <div id="marksSubmission" class="form-container">
+        <h2>Student Marks Submission</h2>
+        <p>Fill in the table with student names, subjects, and marks. After submission, download the CSV file and manually upload it to the shared Google Drive folder.</p>
+
+        <!-- Editable Table for Student Marks -->
+        <form id="resultsForm">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="studentName[]" required></td>
+                        <td><input type="text" name="subject[]" required></td>
+                        <td><input type="number" name="marks[]" min="0" max="100" required></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="button" onclick="addRow()">Add Row</button>
+            <button type="submit">Download CSV</button>
+        </form>
+
+        <p id="statusMessage"></p>
+
+        <h3>Upload your CSV to Google Drive</h3>
+        <button onclick="openGoogleDrive()">Upload to Google Drive</button>
+    </div>
+
+    <!-- Assignment Creation Form (Initially Hidden) -->
+    <div id="assignmentForm" class="form-container">
+        <h2>Create Assignment</h2>
+        <form id="createAssignmentForm">
+            <label for="assignmentTitle">Assignment Title:</label>
+            <input type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Enter assignment title" required>
+
+            <label for="assignmentDescription">Description:</label>
+            <textarea id="assignmentDescription" name="assignmentDescription" placeholder="Enter assignment description" required></textarea>
+
+            <button type="button" onclick="downloadAssignment()">Download Assignment</button>
+            <button type="button" onclick="openGoogleDriveAssignment()">Upload to Google Drive</button>
+        </form>
+    </div>
     <script>
-        /* Function to open the slide menu */
+                /* Function to open the slide menu */
         function openMenu() {
             document.getElementById("menu").style.width = "250px";
         }
@@ -183,30 +273,100 @@
 
         /* Function to toggle the balance display */
         function toggleBalance() {
-            var balance = document.getElementById("balance");
-            var form = document.getElementById("withdrawalForm");
-
-            if (balance.style.display === "none" || balance.style.display === "") {
-                balance.style.display = "block";
-                form.style.display = "none"; // Hide withdrawal form
-            } else {
-                balance.style.display = "none";
-            }
+            const balanceDiv = document.getElementById("balance");
+            balanceDiv.style.display = balanceDiv.style.display === "none" ? "block" : "none";
+            document.getElementById("withdrawalForm").style.display = "none";
+            document.getElementById("assignmentForm").style.display = "none";
+            document.getElementById("marksSubmission").style.display = "none";
         }
 
         /* Function to toggle the withdrawal form */
         function toggleWithdrawalForm() {
-            var form = document.getElementById("withdrawalForm");
-            var balance = document.getElementById("balance");
+            const withdrawalForm = document.getElementById("withdrawalForm");
+            withdrawalForm.style.display = withdrawalForm.style.display === "none" ? "block" : "none";
+            document.getElementById("balance").style.display = "none";
+            document.getElementById("assignmentForm").style.display = "none";
+            document.getElementById("marksSubmission").style.display = "none";
+        }
 
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";
-                balance.style.display = "none"; // Hide balance
-            } else {
-                form.style.display = "none";
+        /* Function to toggle the assignment creation form */
+        function toggleAssignmentForm() {
+            const assignmentForm = document.getElementById("assignmentForm");
+            assignmentForm.style.display = assignmentForm.style.display === "none" ? "block" : "none";
+            document.getElementById("balance").style.display = "none";
+            document.getElementById("withdrawalForm").style.display = "none";
+            document.getElementById("marksSubmission").style.display = "none";
+        }
+
+        /* Function to toggle the marks submission section */
+        function toggleMarksSubmission() {
+            const marksSubmission = document.getElementById("marksSubmission");
+            marksSubmission.style.display = marksSubmission.style.display === "none" ? "block" : "none";
+            document.getElementById("balance").style.display = "none";
+            document.getElementById("withdrawalForm").style.display = "none";
+            document.getElementById("assignmentForm").style.display = "none";
+        }
+
+        /* Function to add a new row to the marks submission table */
+        function addRow() {
+            const table = document.getElementById("resultsTable").getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            const cell1 = newRow.insertCell(0);
+            const cell2 = newRow.insertCell(1);
+            const cell3 = newRow.insertCell(2);
+            cell1.innerHTML = '<input type="text" name="studentName[]" required>';
+            cell2.innerHTML = '<input type="text" name="subject[]" required>';
+            cell3.innerHTML = '<input type="number" name="marks[]" min="0" max="100" required>';
+        }
+
+        /* Function to handle the results form submission */
+        document.getElementById('resultsForm').onsubmit = function (e) {
+            e.preventDefault();
+            // Convert data to CSV format
+            const studentNames = Array.from(document.getElementsByName('studentName[]')).map(input => input.value);
+            const subjects = Array.from(document.getElementsByName('subject[]')).map(input => input.value);
+            const marks = Array.from(document.getElementsByName('marks[]')).map(input => input.value);
+
+            let csvContent = "data:text/csv;charset=utf-8,Student Name,Subject,Marks\n";
+            for (let i = 0; i < studentNames.length; i++) {
+                csvContent += `${studentNames[i]},${subjects[i]},${marks[i]}\n`;
             }
+
+            // Create a download link and trigger download
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "student_marks.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        /* Function to open Google Drive for uploads */
+        function openGoogleDrive() {
+            window.open('https://drive.google.com/', '_blank');
+        }
+
+        /* Function to open Google Drive for assignment uploads */
+        function openGoogleDriveAssignment() {
+            window.open('https://drive.google.com/', '_blank');
+        }
+
+        /* Function to download the assignment */
+        function downloadAssignment() {
+            const title = document.getElementById("assignmentTitle").value;
+            const description = document.getElementById("assignmentDescription").value;
+
+            const assignmentContent = `Title: ${title}\nDescription: ${description}`;
+            const blob = new Blob([assignmentContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${title}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
-
 </body>
 </html>
+

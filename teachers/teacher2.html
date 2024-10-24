@@ -3,210 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Walugembe Frank - Teacher Profile</title>
+    <title>Teacher's Dashboard</title>
     <style>
-        /* Basic styling for the page */
         body {
             font-family: Arial, sans-serif;
-            background-color: green; /* Set the background to green */
-            color: white;
-        }
-
-        h1, p {
-            text-align: center;
-        }
-
-        /* Styling for the slide menu */
-        #menu {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
+            margin: 0;
+            padding: 0;
             overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
+            background-color: #28a745;
+            color: white;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
-        #menu a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        #menu a:hover {
-            color: #f1f1f1;
-        }
-
-        #menu .closebtn {
-            position: absolute;
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
             top: 0;
-            right: 25px;
-            font-size: 36px;
+            left: -250px;
+            background-color: #333;
+            padding: 15px;
+            transition: left 0.3s;
+            color: #fff;
         }
 
-        #menu .profile-info {
-            padding: 16px;
-            color: white;
-            background-color: #333;
+        .sidebar h2 {
             text-align: center;
         }
 
-        #openMenuBtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #333;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-        }
-
-        /* Basic form styling */
-        .form-container {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        form {
-            display: inline-block;
-            text-align: left;
-        }
-
-        label {
+        .sidebar button {
             display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        input[type="text"], input[type="number"] {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #444;
+            color: #fff;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #45a049;
+        .menu-button {
+            margin: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
         }
 
-        /* Hide the balance and withdrawal form by default */
-        #balance {
+        .popup {
             display: none;
-        }
-
-        #withdrawalForm {
-            display: none;
-        }
-
-        /* Watermark styling */
-        .watermark {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 24px;
-            color: rgba(255, 255, 255, 0.5);
-            font-weight: bold;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 600px;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .popup h2 {
             text-align: center;
+            color: black;
+        }
+
+        .popup table {
+            width: 100%;
+            margin-top: 20px;
+            color: black;
+        }
+
+        .popup table th, .popup table td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .popup button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        .popup .close-button {
+            background-color: red;
+            margin-top: 10px;
+        }
+
+        .instructions {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        .download-button {
+            background-color: green;
+        }
+
+        .scrollable {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .withdraw-form {
+            margin: 20px 0;
+            color: black;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .withdraw-form input[type="text"], .withdraw-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .withdraw-form button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .balance-display {
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Watermark Text -->
-    <div class="watermark">Welcome to Smartedupexa dear teacher</div>
+    <div class="sidebar" id="sidebar">
+        <button class="close-button" onclick="toggleMenu()">✖ Close Menu</button>
+        <h2>Mr Walugembe physics </h2>
+        <p>ID: smartedupexa-UIDT-0002</p>
+        <p class="balance-display">Balance: UGX 0</p>
+        <button onclick="togglePopup('marksPopup')">Insert Marks</button>
+        <button onclick="window.open('https://www.dropbox.com/request/j1OFTbFpzRffantUldY8', '_blank')">Upload Assignments</button>
+        <button onclick="window.open('https://drive.google.com/drive/folders/1DnvILL94hcxEjg_Zh8n7zZ6F1Lc5sWcE', '_blank')">Notes</button>
+        <button onclick="window.open('https://kunta-pro.github.io/teacher-bookings/bookings/teacher1.html', '_blank')">Bookings</button>
+        <button onclick="togglePopup('withdrawPopup')">Withdraw Funds</button>
+    </div>
 
-    <!-- Slide Menu Button -->
-    <button id="openMenuBtn" onclick="openMenu()">☰ Open Menu</button>
+    <button class="menu-button" onclick="toggleMenu()">☰ Menu</button>
 
-    <!-- Slide Menu -->
-    <div id="menu">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">×</a>
+    <div class="popup" id="marksPopup">
+        <h2>Insert Student Marks</h2>
+        <p class="instructions">Instructions: Insert student marks into the table below. Add more rows if necessary, download the file, and then upload it to Dropbox.</p>
 
-        <!-- Profile Info in Menu -->
-        <div class="profile-info">
-            <h1>Mr. Walugembe Frank</h1>
-            <p>ID: smartedupexa-UIDT-0002</p>
-            <p>Subjects: Luganda, ENT, and History</p>
+        <div class="scrollable">
+            <table id="marksTable">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="studentName" placeholder="Enter student name"></td>
+                        <td><input type="text" name="subject" placeholder="Enter subject"></td>
+                        <td><input type="text" name="marks" placeholder="Enter marks"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- Menu Items -->
-        <a href="javascript:void(0)" onclick="toggleBalance()">Balance</a>
-        <a href="javascript:void(0)" onclick="toggleWithdrawalForm()">Withdraw</a>
+        <button onclick="addRow()">Add More Rows</button>
+        <button class="download-button" onclick="downloadCSV()">Download File</button>
+        <button class="upload-button" onclick="window.open('https://www.dropbox.com/request/j1OFTbFpzRffantUldY8', '_blank')">Upload to Dropbox</button>
+        <button class="close-button" onclick="togglePopup('marksPopup')">Close</button>
     </div>
 
-    <!-- Balance Display (Initially Hidden) -->
-    <div id="balance" class="form-container">
-        <h2>Balance</h2>
-        <p>Balance: 0 UGX</p>
-    </div>
+    <!-- Withdraw Form Popup -->
+    <div class="popup" id="withdrawPopup">
+        <h2>Withdraw Funds</h2>
+        <form action="https://formspree.io/f/mgvevpdp" method="POST" onsubmit="submitWithdraw(event)">
+            <label for="account-name">Account Name</label>
+            <input type="text" id="account-name" name="account-name" placeholder="Enter account name" required>
 
-    <!-- Withdrawal Form (Initially Hidden) -->
-    <div class="form-container" id="withdrawalForm">
-        <h2>Withdrawal Form</h2>
-        <form action="https://formspree.io/f/xrbggjrn" method="POST">
-            <label for="names">Names:</label>
-            <input type="text" id="names" name="names" placeholder="Enter your full name" required>
+            <label for="mobile-number">Mobile Number</label>
+            <input type="text" id="mobile-number" name="mobile-number" placeholder="Enter mobile number" required>
 
-            <label for="mobileMoney">Mobile Money Number:</label>
-            <input type="number" id="mobileMoney" name="mobileMoney" placeholder="Enter mobile money number" required>
+            <label for="withdraw-amount">Amount (UGX)</label>
+            <input type="number" id="withdraw-amount" name="withdraw-amount" placeholder="Enter amount" required>
 
-            <button type="submit">Submit Withdrawal Request</button>
+            <button type="submit">Submit Withdraw Request</button>
+            <button type="button" class="close-button" onclick="togglePopup('withdrawPopup')">Close</button>
         </form>
     </div>
 
     <script>
-        /* Function to open the slide menu */
-        function openMenu() {
-            document.getElementById("menu").style.width = "250px";
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.style.left = sidebar.style.left === '0px' ? '-250px' : '0px';
         }
 
-        /* Function to close the slide menu */
-        function closeMenu() {
-            document.getElementById("menu").style.width = "0";
+        function togglePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.style.display = popup.style.display === 'block' ? 'none' : 'block';
         }
 
-        /* Function to toggle the balance display */
-        function toggleBalance() {
-            var balance = document.getElementById("balance");
-            var form = document.getElementById("withdrawalForm");
+        function addRow() {
+            const table = document.getElementById('marksTable').getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td><input type="text" name="studentName" placeholder="Enter student name"></td>
+                <td><input type="text" name="subject" placeholder="Enter subject"></td>
+                <td><input type="text" name="marks" placeholder="Enter marks"></td>
+            `;
+        }
 
-            if (balance.style.display === "none" || balance.style.display === "") {
-                balance.style.display = "block";
-                form.style.display = "none"; // Hide withdrawal form
-            } else {
-                balance.style.display = "none";
+        function downloadCSV() {
+            const table = document.getElementById("marksTable");
+            let csv = [];
+            for (let i = 0; i < table.rows.length; i++) {
+                const row = [];
+                const cols = table.rows[i].querySelectorAll("td input");
+                if (cols.length) {
+                    cols.forEach(function(input) {
+                        row.push(input.value);
+                    });
+                } else {
+                    row.push(...[...table.rows[i].querySelectorAll("th")].map(th => th.innerText));
+                      }
+                csv.push(row.join(",")); // Join the columns with a comma
             }
+            const csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(csvFile);
+            downloadLink.download = "marks.csv"; // Filename for download
+            downloadLink.click();
         }
 
-        /* Function to toggle the withdrawal form */
-        function toggleWithdrawalForm() {
-            var form = document.getElementById("withdrawalForm");
-            var balance = document.getElementById("balance");
+        function submitWithdraw(event) {
+            event.preventDefault(); // Prevent the default form submission
+            const form = event.target;
 
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";
-                balance.style.display = "none"; // Hide balance
-            } else {
-                form.style.display = "none";
-            }
+            // Handle form submission logic, e.g., send data to Formspree or show success message
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Withdraw request submitted successfully!');
+                    form.reset(); // Reset the form fields
+                    togglePopup('withdrawPopup'); // Close the popup
+                } else {
+                    alert('successfully submitted.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('successfully submitted.');
+            });
         }
     </script>
-
 </body>
 </html>
+         
